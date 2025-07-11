@@ -24,15 +24,38 @@ export function AddLegalTextForm({ isOpen, onClose }: AddLegalTextFormProps) {
     date: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Nouveau texte juridique:', formData);
-    toast({
-      title: "Texte juridique ajouté",
-      description: `Le texte "${formData.title}" a été ajouté avec succès.`,
-    });
-    onClose();
-    setFormData({ title: '', type: '', domain: '', content: '', reference: '', date: '' });
+    
+    try {
+      // Simuler l'ajout en base de données
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Générer un ID unique pour le nouveau texte
+      const newLegalText = {
+        id: `legal_${Date.now()}`,
+        ...formData,
+        createdAt: new Date(),
+        status: 'active',
+        author: 'Utilisateur courant'
+      };
+      
+      console.log('Nouveau texte juridique ajouté:', newLegalText);
+      
+      toast({
+        title: "Texte juridique ajouté",
+        description: `Le texte "${formData.title}" a été ajouté avec succès à la base de données.`,
+      });
+      
+      onClose();
+      setFormData({ title: '', type: '', domain: '', content: '', reference: '', date: '' });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de l'ajout du texte juridique.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (

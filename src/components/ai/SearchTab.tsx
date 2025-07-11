@@ -3,18 +3,31 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search } from 'lucide-react';
 import { TabFormField } from '@/components/common/TabFormField';
+import { useAIFunctionalities } from '@/hooks/useAIFunctionalities';
 
 export function SearchTab() {
+  const {
+    createNewSearch,
+    filterItems,
+    sortItems,
+    exportData,
+    refreshData,
+    searchInData
+  } = useAIFunctionalities();
+
   return (
     <div className="space-y-6">
       <TabFormField
         placeholder="Recherche IA avancée..."
-        onSearch={(query) => console.log('Recherche IA avancée:', query)}
-        onAdd={() => console.log('Nouvelle recherche')}
-        onFilter={() => console.log('Filtrer recherches')}
-        onSort={() => console.log('Trier recherches')}
-        onExport={() => console.log('Exporter recherches')}
-        onRefresh={() => console.log('Actualiser recherche IA')}
+        onSearch={(query) => {
+          searchInData(query);
+          createNewSearch(query);
+        }}
+        onAdd={() => createNewSearch()}
+        onFilter={() => filterItems('search')}
+        onSort={() => sortItems('relevance')}
+        onExport={() => exportData('search')}
+        onRefresh={refreshData}
         showActions={true}
       />
       <Card>

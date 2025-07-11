@@ -24,15 +24,41 @@ export function AddNewsForm({ isOpen, onClose }: AddNewsFormProps) {
     urgency: 'normal'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Nouvelle actualité:', formData);
-    toast({
-      title: "Actualité ajoutée",
-      description: `L'actualité "${formData.title}" a été ajoutée avec succès.`,
-    });
-    onClose();
-    setFormData({ title: '', category: '', source: '', content: '', tags: '', urgency: 'normal' });
+    
+    try {
+      // Simuler l'ajout en base de données
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Générer un ID unique pour la nouvelle actualité
+      const newNews = {
+        id: `news_${Date.now()}`,
+        ...formData,
+        createdAt: new Date(),
+        publishedAt: new Date(),
+        status: 'published',
+        author: 'Utilisateur courant',
+        views: 0,
+        tagsArray: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+      };
+      
+      console.log('Nouvelle actualité ajoutée:', newNews);
+      
+      toast({
+        title: "Actualité publiée",
+        description: `L'actualité "${formData.title}" a été publiée avec succès.`,
+      });
+      
+      onClose();
+      setFormData({ title: '', category: '', source: '', content: '', tags: '', urgency: 'normal' });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de la publication de l'actualité.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
