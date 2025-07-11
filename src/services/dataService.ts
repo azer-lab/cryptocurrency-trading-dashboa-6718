@@ -11,10 +11,24 @@ export interface DataItem {
 
 class DataService {
   private data: Map<string, DataItem[]> = new Map();
+  private favoritesSet: Set<string> = new Set(); // Cache for O(1) favorites lookup
 
   // Initialize with mock data
   constructor() {
     this.initializeMockData();
+    this.syncFavoritesSet();
+  }
+
+  // Sync favoritesSet with existing favorites data
+  private syncFavoritesSet(): void {
+    const favorites = this.data.get('favorites') || [];
+    this.favoritesSet.clear();
+    favorites.forEach(item => this.favoritesSet.add(item.id));
+  }
+
+  // Generate unique ID with better collision resistance
+  private generateUniqueId(): string {
+    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`;
   }
 
   private initializeMockData() {
@@ -93,7 +107,7 @@ class DataService {
     const items = this.data.get(category) || [];
     const newItem: DataItem = {
       ...item,
-      id: Date.now().toString()
+      id: this.generateUniqueId()
     };
     items.push(newItem);
     this.data.set(category, items);
@@ -121,29 +135,39 @@ class DataService {
     return true;
   }
 
-  // Favorites Management
+  // Favorites Management  
   addToFavorites(item: DataItem): void {
-    const favorites = this.data.get('favorites') || [];
-    if (!favorites.find(fav => fav.id === item.id)) {
+    // O(1) lookup instead of O(n) array search
+    if (!this.favoritesSet.has(item.id)) {
+      const favorites = this.data.get('favorites') || [];
       favorites.push(item);
       this.data.set('favorites', favorites);
+      this.favoritesSet.add(item.id);
     }
   }
 
   removeFromFavorites(id: string): void {
-    const favorites = this.data.get('favorites') || [];
-    const newFavorites = favorites.filter(item => item.id !== id);
-    this.data.set('favorites', newFavorites);
+    if (this.favoritesSet.has(id)) {
+      const favorites = this.data.get('favorites') || [];
+      const newFavorites = favorites.filter(item => item.id !== id);
+      this.data.set('favorites', newFavorites);
+      this.favoritesSet.delete(id);
+    }
   }
 
   getFavorites(): DataItem[] {
     return this.data.get('favorites') || [];
   }
 
+  // Method to check if item is favorited - O(1) operation
+  isFavorited(id: string): boolean {
+    return this.favoritesSet.has(id);
+  }
+
   // Comparison Management
   addToComparison(items: DataItem[]): string {
     const comparisons = this.data.get('comparisons') || [];
-    const comparisonId = Date.now().toString();
+    const comparisonId = this.generateUniqueId();
     const comparison = {
       id: comparisonId,
       title: `Comparaison ${comparisons.length + 1}`,
@@ -176,7 +200,7 @@ class DataService {
     const existingItems = this.data.get(category) || [];
     const newItems = data.map(item => ({
       ...item,
-      id: item.id || Date.now().toString() + Math.random().toString(36).substr(2, 9)
+      id: item.id || this.generateUniqueId()
     }));
     this.data.set(category, [...existingItems, ...newItems]);
   }

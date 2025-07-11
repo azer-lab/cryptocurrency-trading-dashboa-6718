@@ -81,7 +81,7 @@ export const useGlobalStore = create<GlobalState>()(
       addNotification: (notification) => {
         const newNotification = {
           ...notification,
-          id: Date.now().toString(),
+          id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
           timestamp: new Date(),
           read: false
         };
@@ -92,12 +92,20 @@ export const useGlobalStore = create<GlobalState>()(
       },
       
       markNotificationAsRead: (id) => {
-        set((state) => ({
-          notifications: state.notifications.map(n => 
-            n.id === id ? { ...n, read: true } : n
-          ),
-          unreadNotifications: Math.max(0, state.unreadNotifications - 1)
-        }));
+        set((state) => {
+          const notification = state.notifications.find(n => n.id === id);
+          // Only decrement if notification exists and was actually unread
+          const shouldDecrement = notification && !notification.read;
+          
+          return {
+            notifications: state.notifications.map(n => 
+              n.id === id ? { ...n, read: true } : n
+            ),
+            unreadNotifications: shouldDecrement 
+              ? state.unreadNotifications - 1 
+              : state.unreadNotifications
+          };
+        });
       },
       
       clearNotifications: () => set({ notifications: [], unreadNotifications: 0 }),
