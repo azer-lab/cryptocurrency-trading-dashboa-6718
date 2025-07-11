@@ -25,15 +25,43 @@ export function AddProcedureForm({ isOpen, onClose }: AddProcedureFormProps) {
     requirements: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Nouvelle procédure:', formData);
-    toast({
-      title: "Procédure ajoutée",
-      description: `La procédure "${formData.name}" a été ajoutée avec succès.`,
-    });
-    onClose();
-    setFormData({ name: '', category: '', institution: '', duration: '', cost: '', description: '', requirements: '' });
+    
+    try {
+      // Simuler l'ajout en base de données
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Générer un ID unique pour la nouvelle procédure
+      const newProcedure = {
+        id: `proc_${Date.now()}`,
+        ...formData,
+        createdAt: new Date(),
+        status: 'active',
+        author: 'Utilisateur courant',
+        steps: [
+          { id: 1, title: 'Préparation des documents', completed: false },
+          { id: 2, title: 'Dépôt du dossier', completed: false },
+          { id: 3, title: 'Validation', completed: false }
+        ]
+      };
+      
+      console.log('Nouvelle procédure ajoutée:', newProcedure);
+      
+      toast({
+        title: "Procédure ajoutée",
+        description: `La procédure "${formData.name}" a été ajoutée avec succès à la base de données.`,
+      });
+      
+      onClose();
+      setFormData({ name: '', category: '', institution: '', duration: '', cost: '', description: '', requirements: '' });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de l'ajout de la procédure.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (

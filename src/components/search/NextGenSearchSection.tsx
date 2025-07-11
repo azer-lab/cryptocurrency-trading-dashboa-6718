@@ -38,7 +38,15 @@ export function NextGenSearchSection() {
           <TabFormField
             placeholder="Recherche sémantique et conceptuelle..."
             onSearch={(query) => console.log('Recherche sémantique:', query)}
-            onAdd={() => console.log('Nouveau concept')}
+            onAdd={() => {
+            const newConcept = {
+              id: `concept_${Date.now()}`,
+              name: `Concept ${new Date().toLocaleTimeString('fr-FR')}`,
+              type: 'search-concept',
+              createdAt: new Date()
+            };
+            console.log('Nouveau concept créé:', newConcept);
+          }}
             onFilter={() => console.log('Filtrer concepts')}
             onSort={() => console.log('Trier concepts')}
             onExport={() => console.log('Exporter résultats')}
@@ -53,7 +61,15 @@ export function NextGenSearchSection() {
           <TabFormField
             placeholder="Interface de recherche immersive..."
             onSearch={(query) => console.log('Recherche immersive:', query)}
-            onAdd={() => console.log('Nouvelle vue')}
+            onAdd={() => {
+            const newView = {
+              id: `view_${Date.now()}`,
+              name: `Vue ${new Date().toLocaleTimeString('fr-FR')}`,
+              type: 'search-view',
+              createdAt: new Date()
+            };
+            console.log('Nouvelle vue créée:', newView);
+          }}
             onFilter={() => console.log('Filtrer vues')}
             onSort={() => console.log('Trier vues')}
             onExport={() => console.log('Exporter visualisation')}

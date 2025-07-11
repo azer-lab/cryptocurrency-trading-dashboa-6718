@@ -12,7 +12,16 @@ export function SecureFileSharing() {
       <TabFormField
         placeholder="Rechercher dans les ressources partagées..."
         onSearch={(query) => console.log('Recherche ressources:', query)}
-        onAdd={() => console.log('Ajouter ressource')}
+        onAdd={() => {
+          // Simuler l'ajout d'une ressource
+          const newResource = {
+            id: `resource_${Date.now()}`,
+            name: `Ressource ${new Date().toLocaleTimeString('fr-FR')}`,
+            type: 'document',
+            createdAt: new Date()
+          };
+          console.log('Nouvelle ressource ajoutée:', newResource);
+        }}
         onFilter={() => console.log('Filtrer ressources')}
         onSort={() => console.log('Trier ressources')}
         onExport={() => console.log('Exporter ressources')}

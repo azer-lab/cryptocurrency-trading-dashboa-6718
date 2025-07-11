@@ -6,8 +6,20 @@ import { Badge } from '@/components/ui/badge';
 import { Brain, Cpu, Zap, Target, Sparkles, Bot, MessageSquare, BarChart3, Users, Shield, AlertTriangle } from 'lucide-react';
 import { UnifiedSectionHeader } from '@/components/common/UnifiedSectionHeader';
 import { TabFormField } from '@/components/common/TabFormField';
+import { useAIFunctionalities } from '@/hooks/useAIFunctionalities';
 
 export function AIAdvancedSection() {
+  const {
+    createNewAIProject,
+    createNewAlgorithm,
+    createNewAnalysis,
+    filterItems,
+    sortItems,
+    exportData,
+    refreshData,
+    searchInData
+  } = useAIFunctionalities();
+
   return (
     <div className="space-y-6">
       {/* Header unifié avec titre et description */}
@@ -30,12 +42,12 @@ export function AIAdvancedSection() {
           {/* Champ de formulaire avec fonctionnalités */}
           <TabFormField
             placeholder="Explorer les fonctionnalités d'IA avancée..."
-            onSearch={(query) => console.log('Recherche IA avancée:', query)}
-            onAdd={() => console.log('Nouveau projet IA')}
-            onFilter={() => console.log('Filtrer projets IA')}
-            onSort={() => console.log('Trier projets IA')}
-            onExport={() => console.log('Exporter données IA')}
-            onRefresh={() => console.log('Actualiser IA')}
+            onSearch={searchInData}
+            onAdd={() => createNewAIProject('research')}
+            onFilter={() => filterItems('ai-project')}
+            onSort={() => sortItems('creation-date')}
+            onExport={() => exportData('ai-data')}
+            onRefresh={refreshData}
             showActions={true}
           />
 
@@ -149,12 +161,12 @@ export function AIAdvancedSection() {
           {/* Champ de formulaire avec fonctionnalités */}
           <TabFormField
             placeholder="Rechercher dans les algorithmes IA..."
-            onSearch={(query) => console.log('Recherche algorithmes:', query)}
-            onAdd={() => console.log('Nouvel algorithme')}
-            onFilter={() => console.log('Filtrer algorithmes')}
-            onSort={() => console.log('Trier algorithmes')}
-            onExport={() => console.log('Exporter algorithmes')}
-            onRefresh={() => console.log('Actualiser algorithmes')}
+            onSearch={searchInData}
+            onAdd={createNewAlgorithm}
+            onFilter={() => filterItems('algorithm')}
+            onSort={() => sortItems('performance')}
+            onExport={() => exportData('algorithms')}
+            onRefresh={refreshData}
             showActions={true}
           />
 
@@ -200,12 +212,12 @@ export function AIAdvancedSection() {
           {/* Champ de formulaire avec fonctionnalités */}
           <TabFormField
             placeholder="Analyser les données avec l'IA..."
-            onSearch={(query) => console.log('Recherche analytics IA:', query)}
-            onAdd={() => console.log('Nouvelle analyse')}
-            onFilter={() => console.log('Filtrer analyses')}
-            onSort={() => console.log('Trier analyses')}
-            onExport={() => console.log('Exporter analyses')}
-            onRefresh={() => console.log('Actualiser analytics')}
+            onSearch={searchInData}
+            onAdd={createNewAnalysis}
+            onFilter={() => filterItems('analysis')}
+            onSort={() => sortItems('accuracy')}
+            onExport={() => exportData('analytics')}
+            onRefresh={refreshData}
             showActions={true}
           />
 
@@ -239,12 +251,12 @@ export function AIAdvancedSection() {
           {/* Champ de formulaire avec fonctionnalités */}
           <TabFormField
             placeholder="Explorer la recherche et développement IA..."
-            onSearch={(query) => console.log('Recherche R&D:', query)}
-            onAdd={() => console.log('Nouveau projet R&D')}
-            onFilter={() => console.log('Filtrer projets R&D')}
-            onSort={() => console.log('Trier projets R&D')}
-            onExport={() => console.log('Exporter R&D')}
-            onRefresh={() => console.log('Actualiser R&D')}
+            onSearch={searchInData}
+            onAdd={() => createNewAIProject('research')}
+            onFilter={() => filterItems('research')}
+            onSort={() => sortItems('innovation-level')}
+            onExport={() => exportData('research-data')}
+            onRefresh={refreshData}
             showActions={true}
           />
 

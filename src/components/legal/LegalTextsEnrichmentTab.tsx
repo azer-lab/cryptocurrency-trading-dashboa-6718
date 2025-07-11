@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Plus, Upload, Wand2, Database, Scan } from 'lucide-react';
 import { OCRScanner } from '@/components/common/OCRScanner';
+import { useImportExport } from '@/hooks/useImportExport';
+import { useToast } from '@/hooks/use-toast';
 
 interface LegalTextsEnrichmentTabProps {
   onAddLegalText: () => void;
@@ -12,6 +14,8 @@ interface LegalTextsEnrichmentTabProps {
 
 export function LegalTextsEnrichmentTab({ onAddLegalText, onOCRTextExtracted }: LegalTextsEnrichmentTabProps) {
   const [showOCRScanner, setShowOCRScanner] = useState(false);
+  const { importCSVExcel, autoFillData, autoExtractText } = useImportExport();
+  const { toast } = useToast();
 
   const handleOCRExtracted = (text: string) => {
     console.log('Texte OCR extrait:', text);
@@ -19,6 +23,54 @@ export function LegalTextsEnrichmentTab({ onAddLegalText, onOCRTextExtracted }: 
       onOCRTextExtracted(text);
     }
     setShowOCRScanner(false);
+  };
+
+  const handleImportCSVExcel = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv,.xlsx,.xls';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        try {
+          await importCSVExcel(file, {
+            format: file.name.endsWith('.csv') ? 'csv' : 'excel',
+            hasHeader: true
+          });
+        } catch (error) {
+          console.error('Erreur lors de l\'import:', error);
+        }
+      }
+    };
+    input.click();
+  };
+
+  const handleAutoFill = async () => {
+    try {
+      await autoFillData({
+        type: 'legal-text',
+        partialData: {}
+      });
+    } catch (error) {
+      console.error('Erreur lors de l\'auto-remplissage:', error);
+    }
+  };
+
+  const handleAutoExtract = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pdf,.doc,.docx,.txt';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        try {
+          await autoExtractText(file);
+        } catch (error) {
+          console.error('Erreur lors de l\'extraction:', error);
+        }
+      }
+    };
+    input.click();
   };
 
   if (showOCRScanner) {
@@ -54,7 +106,7 @@ export function LegalTextsEnrichmentTab({ onAddLegalText, onOCRTextExtracted }: 
       description: "Importer plusieurs textes depuis un fichier Excel/CSV",
       buttonText: "Import CSV/Excel",
       color: "blue",
-      onClick: () => console.log('Import CSV/Excel')
+      onClick: handleImportCSVExcel
     },
     {
       icon: Wand2,
@@ -62,7 +114,7 @@ export function LegalTextsEnrichmentTab({ onAddLegalText, onOCRTextExtracted }: 
       description: "Remplissage automatique avec IA",
       buttonText: "Auto-remplissage",
       color: "purple",
-      onClick: () => console.log('Auto-remplissage')
+      onClick: handleAutoFill
     },
     {
       icon: Database,
@@ -70,7 +122,7 @@ export function LegalTextsEnrichmentTab({ onAddLegalText, onOCRTextExtracted }: 
       description: "Importer et traiter automatiquement des textes juridiques",
       buttonText: "Extraction auto",
       color: "orange",
-      onClick: () => console.log('Extraction auto')
+      onClick: handleAutoExtract
     }
   ];
 

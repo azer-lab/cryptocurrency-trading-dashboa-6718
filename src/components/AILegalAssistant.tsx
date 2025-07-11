@@ -10,9 +10,22 @@ import { UnifiedSectionHeader } from './common/UnifiedSectionHeader';
 import { TabFormField } from './common/TabFormField';
 import { ConversationalAIAssistant } from './ai/ConversationalAIAssistant';
 import { EnhancedContextualRecommendations } from './ai/EnhancedContextualRecommendations';
+import { useAIFunctionalities } from '@/hooks/useAIFunctionalities';
 
 export function AILegalAssistant() {
   const [activeTab, setActiveTab] = useState('assistant');
+  const {
+    createNewConversation,
+    createNewSearch,
+    createNewRecommendation,
+    filterItems,
+    sortItems,
+    exportData,
+    refreshData,
+    searchInData,
+    conversations,
+    projects
+  } = useAIFunctionalities();
 
   // Remove the scrolling effect that was causing the issue
   useEffect(() => {
@@ -66,12 +79,12 @@ export function AILegalAssistant() {
         <TabsContent value="assistant" className="space-y-6">
           <TabFormField
             placeholder="Poser une question à l'assistant IA juridique..."
-            onSearch={(query) => console.log('Question IA:', query)}
-            onAdd={() => console.log('Nouvelle conversation')}
-            onFilter={() => console.log('Filtrer conversations')}
-            onSort={() => console.log('Trier conversations')}
-            onExport={() => console.log('Exporter conversation')}
-            onRefresh={() => console.log('Actualiser IA')}
+            onSearch={searchInData}
+            onAdd={createNewConversation}
+            onFilter={() => filterItems('conversation')}
+            onSort={() => sortItems('date')}
+            onExport={() => exportData('conversation')}
+            onRefresh={refreshData}
             showActions={true}
           />
 
@@ -130,12 +143,15 @@ export function AILegalAssistant() {
         <TabsContent value="search" className="space-y-6">
           <TabFormField
             placeholder="Recherche IA avancée..."
-            onSearch={(query) => console.log('Recherche IA avancée:', query)}
-            onAdd={() => console.log('Nouvelle recherche')}
-            onFilter={() => console.log('Filtrer recherches')}
-            onSort={() => console.log('Trier recherches')}
-            onExport={() => console.log('Exporter recherches')}
-            onRefresh={() => console.log('Actualiser recherche IA')}
+            onSearch={(query) => {
+              searchInData(query);
+              createNewSearch(query);
+            }}
+            onAdd={() => createNewSearch()}
+            onFilter={() => filterItems('search')}
+            onSort={() => sortItems('relevance')}
+            onExport={() => exportData('search')}
+            onRefresh={refreshData}
             showActions={true}
           />
           <Card>
@@ -152,12 +168,12 @@ export function AILegalAssistant() {
         <TabsContent value="recommendations" className="space-y-6">
           <TabFormField
             placeholder="Explorer les recommandations contextuelles..."
-            onSearch={(query) => console.log('Recherche recommandations:', query)}
-            onAdd={() => console.log('Nouvelle recommandation')}
-            onFilter={() => console.log('Filtrer recommandations')}
-            onSort={() => console.log('Trier recommandations')}
-            onExport={() => console.log('Exporter recommandations')}
-            onRefresh={() => console.log('Actualiser recommandations')}
+            onSearch={searchInData}
+            onAdd={createNewRecommendation}
+            onFilter={() => filterItems('recommendation')}
+            onSort={() => sortItems('priority')}
+            onExport={() => exportData('recommendation')}
+            onRefresh={refreshData}
             showActions={true}
           />
           <EnhancedContextualRecommendations />
