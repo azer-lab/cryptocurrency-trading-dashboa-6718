@@ -24,11 +24,9 @@ import { ActionButtonsDemo } from "@/components/examples/ActionButtonsDemo";
 import { AIAdvancedSection } from "@/components/ai/AIAdvancedSection";
 import { AnalyticsDashboardsSection } from "@/components/analytics/AnalyticsDashboardsSection";
 
-import AIComprehensiveTest from "@/pages/AIComprehensiveTest";
 import { NextGenSearchSection } from "@/components/search/NextGenSearchSection";
 import { EnhancedAILegalAssistant } from "@/components/ai/EnhancedAILegalAssistant";
 import { AdminPanel } from "@/components/admin/AdminPanel";
-import { TechnicalSpecification } from "@/components/docs/TechnicalSpecification";
 
 interface ContentRendererProps {
   activeSection: string;
@@ -122,8 +120,6 @@ export function ContentRenderer({ activeSection, language }: ContentRendererProp
       return <AIAdvancedSection />;
     case "ai-search":
       return <NextGenSearchSection />;
-    case "ai-comprehensive-test":
-      return <AIComprehensiveTest />;
     
     // Admin section
     case "admin":

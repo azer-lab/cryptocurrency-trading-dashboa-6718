@@ -26,9 +26,27 @@ import {
   XCircle,
   Zap
 } from 'lucide-react';
+import { LineChart, Line, AreaChart, Area, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart as RechartsPieChart, Cell, BarChart, Bar, Pie } from 'recharts';
 
 export function LegislativeImpactReports() {
   const [selectedTimeframe, setSelectedTimeframe] = useState('6months');
+
+  const trendData = [
+    { month: 'Jan', impact: 65, organisations: 1200, cout: 2.1 },
+    { month: 'Fév', impact: 72, organisations: 1350, cout: 2.4 },
+    { month: 'Mar', impact: 68, organisations: 1420, cout: 2.8 },
+    { month: 'Avr', impact: 85, organisations: 1680, cout: 3.2 },
+    { month: 'Mai', impact: 78, organisations: 1580, cout: 3.0 },
+    { month: 'Jun', impact: 92, organisations: 1820, cout: 3.8 }
+  ];
+
+  const sectorDistribution = [
+    { name: 'Numérique', value: 35, color: '#3B82F6' },
+    { name: 'Environnement', value: 25, color: '#10B981' },
+    { name: 'RH', value: 20, color: '#F59E0B' },
+    { name: 'Finance', value: 12, color: '#EF4444' },
+    { name: 'Santé', value: 8, color: '#8B5CF6' }
+  ];
 
   const legislativeChanges = [
     {
@@ -138,11 +156,19 @@ export function LegislativeImpactReports() {
           <p className="text-gray-600">Analysez l'impact des nouvelles réglementations sur votre organisation</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => (window as any).actionHandlers?.handleFilter?.()}
+          >
             <Filter className="w-4 h-4 mr-2" />
             Filtres
           </Button>
-          <Button variant="outline" size="sm">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => (window as any).actionHandlers?.handleExport?.('legislative-impact')}
+          >
             <Download className="w-4 h-4 mr-2" />
             Exporter
           </Button>
@@ -184,11 +210,32 @@ export function LegislativeImpactReports() {
                 <CardTitle>Tendances d'Impact</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <BarChart3 className="w-12 h-12 mx-auto mb-2" />
-                    <p>Graphique des tendances d'impact</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={trendData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Area 
+                        type="monotone" 
+                        dataKey="impact" 
+                        stroke="#3B82F6" 
+                        fill="#3B82F6" 
+                        fillOpacity={0.3}
+                        name="Score d'Impact"
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="cout" 
+                        stroke="#EF4444" 
+                        fill="#EF4444" 
+                        fillOpacity={0.2}
+                        name="Coût (M€)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -198,11 +245,24 @@ export function LegislativeImpactReports() {
                 <CardTitle>Répartition par Secteur</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <PieChart className="w-12 h-12 mx-auto mb-2" />
-                    <p>Graphique de répartition par secteur</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPieChart>
+                      <Pie
+                        dataKey="value"
+                        data={sectorDistribution}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        label={({name, value}) => `${name}: ${value}%`}
+                      >
+                        {sectorDistribution.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </RechartsPieChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -269,10 +329,18 @@ export function LegislativeImpactReports() {
                     </div>
                     <div className="text-center p-3 bg-gray-50 rounded-lg">
                       <div className="flex justify-center gap-1">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => (window as any).actionHandlers?.handleView?.(change.id)}
+                        >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => (window as any).actionHandlers?.handleDownload?.(change.id)}
+                        >
                           <Download className="w-4 h-4" />
                         </Button>
                       </div>

@@ -31,6 +31,17 @@ export function useGlobalActions() {
 
   const handleFilter = (type: string) => {
     console.log('Filtre appliqué:', type);
+    
+    // Toast d'information
+    const toastEvent = new CustomEvent('show-toast', {
+      detail: {
+        type: 'info',
+        title: 'Filtres',
+        description: 'Ouverture du panneau de filtrage'
+      }
+    });
+    window.dispatchEvent(toastEvent);
+    
     const event = new CustomEvent('open-modal', {
       detail: {
         type: 'filter',
@@ -43,6 +54,16 @@ export function useGlobalActions() {
 
   const handleDownload = (filename: string, url?: string) => {
     console.log('Téléchargement:', filename, url);
+    
+    // Toast de début
+    const startEvent = new CustomEvent('show-toast', {
+      detail: {
+        type: 'info',
+        title: 'Téléchargement',
+        description: `Préparation du téléchargement de ${filename}...`
+      }
+    });
+    window.dispatchEvent(startEvent);
     
     // Créer un fichier de démonstration selon le type
     let content = '';
@@ -64,12 +85,24 @@ export function useGlobalActions() {
       mimeType = 'application/json';
     }
     
-    const link = document.createElement('a');
-    link.href = url || content;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setTimeout(() => {
+      const link = document.createElement('a');
+      link.href = url || content;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Toast de succès
+      const successEvent = new CustomEvent('show-toast', {
+        detail: {
+          type: 'success',
+          title: 'Téléchargement terminé',
+          description: `${filename} téléchargé avec succès`
+        }
+      });
+      window.dispatchEvent(successEvent);
+    }, 1000);
   };
 
   const handleComparison = (items: any[]) => {
@@ -200,6 +233,17 @@ export function useGlobalActions() {
   // Nouvelles fonctions pour les formulaires d'ajout
   const handleAddLegalText = () => {
     console.log('Ouverture formulaire texte juridique');
+    
+    // Toast d'information
+    const toastEvent = new CustomEvent('show-toast', {
+      detail: {
+        type: 'info',
+        title: 'Nouveau texte juridique',
+        description: 'Ouverture du formulaire d\'ajout'
+      }
+    });
+    window.dispatchEvent(toastEvent);
+    
     const event = new CustomEvent('open-add-form', {
       detail: { type: 'legal-text' }
     });
@@ -208,6 +252,17 @@ export function useGlobalActions() {
 
   const handleAddProcedure = () => {
     console.log('Ouverture formulaire procédure');
+    
+    // Toast d'information
+    const toastEvent = new CustomEvent('show-toast', {
+      detail: {
+        type: 'info',
+        title: 'Nouvelle procédure',
+        description: 'Ouverture du formulaire d\'ajout'
+      }
+    });
+    window.dispatchEvent(toastEvent);
+    
     const event = new CustomEvent('open-add-form', {
       detail: { type: 'procedure' }
     });
