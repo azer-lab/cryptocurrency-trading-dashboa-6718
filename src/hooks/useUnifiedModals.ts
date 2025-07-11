@@ -17,7 +17,8 @@ const initialModalState: UnifiedModalState = {
   feedback: { isOpen: false, data: { type: 'feedback' } },
   export: { isOpen: false, data: { data: [], filename: 'export' } },
   import: { isOpen: false, data: { acceptedTypes: ['.csv', '.xlsx', '.json'] } },
-  confirmation: { isOpen: false, data: null }
+  confirmation: { isOpen: false, data: null },
+  addForm: { isOpen: false, data: { formType: 'legal-text' } }
 };
 
 export function useUnifiedModals() {

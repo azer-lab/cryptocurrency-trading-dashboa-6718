@@ -1,8 +1,10 @@
 
 import { useState } from 'react';
+import { useUnifiedModalContext } from '@/components/modals/unified/UnifiedModalProvider';
 
 export function useGlobalActions() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const { openModal } = useUnifiedModalContext();
 
   const handlePDFView = (title: string, url?: string) => {
     console.log('Ouverture PDF:', title, url);
@@ -233,48 +235,48 @@ export function useGlobalActions() {
   // Nouvelles fonctions pour les formulaires d'ajout
   const handleAddLegalText = () => {
     console.log('Ouverture formulaire texte juridique');
-    
-    // Toast d'information
-    const toastEvent = new CustomEvent('show-toast', {
-      detail: {
-        type: 'info',
-        title: 'Nouveau texte juridique',
-        description: 'Ouverture du formulaire d\'ajout'
-      }
-    });
-    window.dispatchEvent(toastEvent);
-    
-    const event = new CustomEvent('open-add-form', {
-      detail: { type: 'legal-text' }
-    });
-    window.dispatchEvent(event);
+    openModal('addForm', { formType: 'legal-text' });
   };
 
   const handleAddProcedure = () => {
     console.log('Ouverture formulaire procédure');
-    
-    // Toast d'information
-    const toastEvent = new CustomEvent('show-toast', {
-      detail: {
-        type: 'info',
-        title: 'Nouvelle procédure',
-        description: 'Ouverture du formulaire d\'ajout'
-      }
-    });
-    window.dispatchEvent(toastEvent);
-    
-    const event = new CustomEvent('open-add-form', {
-      detail: { type: 'procedure' }
-    });
-    window.dispatchEvent(event);
+    openModal('addForm', { formType: 'procedure' });
   };
 
   const handleAddNews = () => {
     console.log('Ouverture formulaire actualité');
-    const event = new CustomEvent('open-add-form', {
-      detail: { type: 'news' }
-    });
-    window.dispatchEvent(event);
+    openModal('addForm', { formType: 'news' });
+  };
+
+  // Nouvelles fonctions pour les différents types de bibliothèque
+  const handleAddOuvrage = () => {
+    console.log('Ouverture formulaire ouvrage');
+    openModal('addForm', { formType: 'ouvrage' });
+  };
+
+  const handleAddRevue = () => {
+    console.log('Ouverture formulaire revue');
+    openModal('addForm', { formType: 'revue' });
+  };
+
+  const handleAddJournal = () => {
+    console.log('Ouverture formulaire journal');
+    openModal('addForm', { formType: 'journal' });
+  };
+
+  const handleAddArticle = () => {
+    console.log('Ouverture formulaire article');
+    openModal('addForm', { formType: 'article' });
+  };
+
+  const handleAddVideo = () => {
+    console.log('Ouverture formulaire vidéo');
+    openModal('addForm', { formType: 'video' });
+  };
+
+  const handleAddAnnuaire = () => {
+    console.log('Ouverture formulaire annuaire');
+    openModal('addForm', { formType: 'annuaire' });
   };
 
   return {
@@ -295,6 +297,12 @@ export function useGlobalActions() {
     handleAddLegalText,
     handleAddProcedure,
     handleAddNews,
+    handleAddOuvrage,
+    handleAddRevue,
+    handleAddJournal,
+    handleAddArticle,
+    handleAddVideo,
+    handleAddAnnuaire,
     isProcessing
   };
 }

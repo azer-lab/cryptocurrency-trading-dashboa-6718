@@ -11,6 +11,7 @@ import { AdvancedSearchModal } from '../AdvancedSearchModal';
 import { ManagementModal } from '../ManagementModal';
 import { AlertManagementModal } from '../AlertManagementModal';
 import { UserManagementModal } from '../UserManagementModal';
+import { AddFormModal } from '../AddFormModal';
 
 export function UnifiedModalRenderer() {
   const { modals, closeModal } = useUnifiedModalContext();
@@ -103,6 +104,12 @@ export function UnifiedModalRenderer() {
           console.log('User saved:', userData);
           closeModal('userManagement');
         }}
+      />
+
+      <AddFormModal
+        isOpen={modals.addForm?.isOpen || false}
+        onClose={() => closeModal('addForm')}
+        formType={modals.addForm?.data?.formType || 'legal-text'}
       />
     </>
   );

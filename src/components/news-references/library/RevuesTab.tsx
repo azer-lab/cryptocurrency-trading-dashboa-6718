@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { FileText } from 'lucide-react';
-import { ActionButtons } from './ActionButtons';
+import { FileText, Plus, Upload } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { ResourceCard } from './ResourceCard';
+import { useGlobalActions } from '@/hooks/useGlobalActions';
 
 const revues = [
   {
@@ -26,9 +27,20 @@ const revues = [
 ];
 
 export function RevuesTab() {
+  const actions = useGlobalActions();
+
   return (
     <div className="space-y-6">
-      <ActionButtons />
+      <div className="flex justify-center gap-3 mb-6">
+        <Button className="gap-2" onClick={actions.handleAddRevue}>
+          <Plus className="w-4 h-4" />
+          Ajouter
+        </Button>
+        <Button variant="outline" className="gap-2" onClick={() => actions.handleImport(['.pdf', '.doc', '.docx', '.txt'])}>
+          <Upload className="w-4 h-4" />
+          Enrichir
+        </Button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {revues.map((revue) => (
           <ResourceCard
