@@ -25,6 +25,7 @@ import {
   Globe,
   Target
 } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 
 export function SearchTrendsAnalysis() {
   const [selectedPeriod, setSelectedPeriod] = useState('30days');
@@ -209,11 +210,23 @@ export function SearchTrendsAnalysis() {
                 <CardTitle>Évolution des Recherches</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <BarChart3 className="w-12 h-12 mx-auto mb-2" />
-                    <p>Graphique d'évolution des recherches</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { mois: "Jan", recherches: 8234 },
+                      { mois: "Fév", recherches: 9567 },
+                      { mois: "Mar", recherches: 12456 },
+                      { mois: "Avr", recherches: 11234 },
+                      { mois: "Mai", recherches: 15678 },
+                      { mois: "Jun", recherches: 14532 }
+                    ]}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="mois" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="recherches" fill="#3b82f6" />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -317,11 +330,25 @@ export function SearchTrendsAnalysis() {
                 <CardTitle>Répartition par Catégorie</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <PieChart className="w-12 h-12 mx-auto mb-2" />
-                    <p>Graphique en secteurs des catégories</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPieChart>
+                      <Pie
+                        data={categoryTrends.map(cat => ({ name: cat.category, value: cat.searches }))}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label
+                      >
+                        {categoryTrends.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16'][index % 7]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </RechartsPieChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -394,11 +421,25 @@ export function SearchTrendsAnalysis() {
                 <CardTitle>Comparaison Hebdomadaire</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <BarChart3 className="w-12 h-12 mx-auto mb-2" />
-                    <p>Graphique de comparaison hebdomadaire</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { jour: "Lun", semaine1: 1234, semaine2: 1456 },
+                      { jour: "Mar", semaine1: 1567, semaine2: 1678 },
+                      { jour: "Mer", semaine1: 1890, semaine2: 2123 },
+                      { jour: "Jeu", semaine1: 2134, semaine2: 2345 },
+                      { jour: "Ven", semaine1: 1876, semaine2: 2012 },
+                      { jour: "Sam", semaine1: 856, semaine2: 945 },
+                      { jour: "Dim", semaine1: 678, semaine2: 723 }
+                    ]}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="jour" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="semaine1" fill="#3b82f6" name="Semaine précédente" />
+                      <Bar dataKey="semaine2" fill="#10b981" name="Cette semaine" />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>

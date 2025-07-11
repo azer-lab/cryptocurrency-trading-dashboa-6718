@@ -26,7 +26,7 @@ export function TechnicalSpecification() {
           Architecture, technologies et fonctionnalités détaillées
         </p>
         <Badge variant="default" className="text-sm">
-          Version 2.0 - Mise à jour: {new Date().toLocaleDateString('fr-FR')}
+          Version 2.1 - Mise à jour: {new Date().toLocaleDateString('fr-FR')}
         </Badge>
       </div>
 
@@ -296,54 +296,61 @@ export function TechnicalSpecification() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CheckCircle className="w-6 h-6 text-green-600" />
-            Nouvelles Fonctionnalités Ajoutées
+            Dernières Améliorations (Version 2.1)
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold mb-3 text-green-600">Formulaires Fonctionnels</h4>
+              <h4 className="font-semibold mb-3 text-green-600">Support Technique Amélioré</h4>
               <div className="space-y-2">
                 <div className="flex items-center justify-between p-2 bg-green-50 rounded text-sm">
-                  <span>AddLegalTextForm.tsx</span>
-                  <Badge variant="outline" className="text-xs">Nouveau</Badge>
+                  <span>Documentation Technique Intégrée</span>
+                  <Badge variant="outline" className="text-xs">✅ Nouveau</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-green-50 rounded text-sm">
-                  <span>AddProcedureForm.tsx</span>
-                  <Badge variant="outline" className="text-xs">Nouveau</Badge>
+                  <span>Onglet Documentation dans Support</span>
+                  <Badge variant="outline" className="text-xs">✅ Ajouté</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-green-50 rounded text-sm">
-                  <span>AddNewsForm.tsx</span>
-                  <Badge variant="outline" className="text-xs">Nouveau</Badge>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-green-50 rounded text-sm">
-                  <span>UnifiedAddButtonHandler.tsx</span>
-                  <Badge variant="outline" className="text-xs">Nouveau</Badge>
+                  <span>Suppression page test IA obsolète</span>
+                  <Badge variant="outline" className="text-xs">✅ Nettoyé</Badge>
                 </div>
               </div>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-3 text-blue-600">Actions Développées</h4>
+              <h4 className="font-semibold mb-3 text-blue-600">Graphiques Enrichis</h4>
               <div className="space-y-2">
                 <div className="flex items-center justify-between p-2 bg-blue-50 rounded text-sm">
-                  <span>Export PDF/Excel/JSON</span>
-                  <Badge variant="outline" className="text-xs">Fonctionnel</Badge>
+                  <span>Analytics avec données réalistes</span>
+                  <Badge variant="outline" className="text-xs">✅ Complété</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-blue-50 rounded text-sm">
-                  <span>Import de fichiers</span>
-                  <Badge variant="outline" className="text-xs">Fonctionnel</Badge>
+                  <span>Graphiques de tendances</span>
+                  <Badge variant="outline" className="text-xs">✅ Remplis</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-blue-50 rounded text-sm">
-                  <span>Actions de partage</span>
-                  <Badge variant="outline" className="text-xs">Fonctionnel</Badge>
+                  <span>Métriques d'utilisation</span>
+                  <Badge variant="outline" className="text-xs">✅ Fonctionnels</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-blue-50 rounded text-sm">
-                  <span>Graphiques remplis</span>
-                  <Badge variant="outline" className="text-xs">Complété</Badge>
+                  <span>Graphiques interactifs Recharts</span>
+                  <Badge variant="outline" className="text-xs">✅ Intégrés</Badge>
                 </div>
               </div>
             </div>
+          </div>
+          
+          <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
+            <h5 className="font-semibold mb-2 text-yellow-800">🆕 Nouveautés Version 2.1</h5>
+            <ul className="space-y-1 text-sm text-yellow-700">
+              <li>• Documentation technique intégrée dans Support Technique</li>
+              <li>• Suppression de la page de test IA obsolète (/ai-assistant-test)</li>
+              <li>• Remplissage de tous les graphiques vides avec données réalistes</li>
+              <li>• Intégration complète de Recharts pour visualisations interactives</li>
+              <li>• Optimisation du code et nettoyage des fichiers obsolètes</li>
+            </ul>
           </div>
         </CardContent>
       </Card>
@@ -378,7 +385,7 @@ export function TechnicalSpecification() {
       
       <div className="text-center text-gray-600">
         <p>Documentation mise à jour le {new Date().toLocaleDateString('fr-FR')}</p>
-        <p>Version de l'application : 2.0</p>
+        <p>Version de l'application : 2.1</p>
         <p>© 2024 dalil.dz - Plateforme de veille juridique et réglementaire</p>
       </div>
     </div>

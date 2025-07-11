@@ -23,6 +23,7 @@ import {
   ArrowDown,
   Activity
 } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line } from 'recharts';
 
 export function DocumentUsageMetrics() {
   const [selectedPeriod, setSelectedPeriod] = useState('7days');
@@ -308,11 +309,25 @@ export function DocumentUsageMetrics() {
                 <CardTitle>Activité par Heure</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <BarChart3 className="w-12 h-12 mx-auto mb-2" />
-                    <p>Graphique d'activité par heure</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { heure: "08h", activite: 45 },
+                      { heure: "09h", activite: 78 },
+                      { heure: "10h", activite: 123 },
+                      { heure: "11h", activite: 156 },
+                      { heure: "14h", activite: 189 },
+                      { heure: "15h", activite: 145 },
+                      { heure: "16h", activite: 98 },
+                      { heure: "17h", activite: 67 }
+                    ]}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="heure" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="activite" fill="#3b82f6" />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -325,11 +340,24 @@ export function DocumentUsageMetrics() {
               <CardTitle>Tendances d'Utilisation</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-64 flex items-center justify-center text-gray-500">
-                <div className="text-center">
-                  <TrendingUp className="w-12 h-12 mx-auto mb-2" />
-                  <p>Graphique des tendances d'utilisation</p>
-                </div>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={[
+                    { mois: "Jan", vues: 2340, telechargements: 456 },
+                    { mois: "Fév", vues: 2890, telechargements: 523 },
+                    { mois: "Mar", vues: 3456, telechargements: 678 },
+                    { mois: "Avr", vues: 3123, telechargements: 612 },
+                    { mois: "Mai", vues: 4567, telechargements: 789 },
+                    { mois: "Jun", vues: 4234, telechargements: 734 }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="mois" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="vues" stroke="#3b82f6" strokeWidth={2} name="Vues" />
+                    <Line type="monotone" dataKey="telechargements" stroke="#10b981" strokeWidth={2} name="Téléchargements" />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>

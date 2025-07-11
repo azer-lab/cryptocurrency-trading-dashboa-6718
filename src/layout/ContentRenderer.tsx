@@ -22,7 +22,7 @@ import { MobileAppSection } from "@/components/configuration/MobileAppSection";
 import { ActionButtonsDemo } from "@/components/examples/ActionButtonsDemo";
 import { AIAdvancedSection } from "@/components/ai/AIAdvancedSection";
 import { AnalyticsDashboardsSection } from "@/components/analytics/AnalyticsDashboardsSection";
-import AIAdvancedTest from "@/pages/AIAdvancedTest";
+
 import AIComprehensiveTest from "@/pages/AIComprehensiveTest";
 import { NextGenSearchSection } from "@/components/search/NextGenSearchSection";
 import { EnhancedAILegalAssistant } from "@/components/ai/EnhancedAILegalAssistant";
@@ -122,8 +122,6 @@ export function ContentRenderer({ activeSection, language }: ContentRendererProp
       return <AIAdvancedSection />;
     case "ai-search":
       return <NextGenSearchSection />;
-    case "ai-advanced-test":
-      return <AIAdvancedTest />;
     case "ai-comprehensive-test":
       return <AIComprehensiveTest />;
     
@@ -143,9 +141,6 @@ export function ContentRenderer({ activeSection, language }: ContentRendererProp
     case "saved-searches":
       return <SavedSearchesEnhanced />;
     
-    // Add technical specification section
-    case "technical-spec":
-      return <TechnicalSpecification />;
     
     default:
       return (

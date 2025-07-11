@@ -162,7 +162,7 @@ export function HelpSections({ section, language = "fr" }: HelpSectionsProps) {
             </div>
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-6">
+              <TabsList className="grid w-full grid-cols-7">
                 <TabsTrigger value="faq" className="flex items-center gap-2 text-sm">
                   {getText("faq")}
                 </TabsTrigger>
@@ -180,6 +180,10 @@ export function HelpSections({ section, language = "fr" }: HelpSectionsProps) {
                 </TabsTrigger>
                 <TabsTrigger value="api-doc" className="flex items-center gap-2 text-sm">
                   {getText("apiDoc")}
+                </TabsTrigger>
+                <TabsTrigger value="technical-doc" className="flex items-center gap-2 text-sm">
+                  <FileText className="w-4 h-4" />
+                  Documentation Technique
                 </TabsTrigger>
               </TabsList>
 
@@ -292,7 +296,7 @@ export function HelpSections({ section, language = "fr" }: HelpSectionsProps) {
                 <VideoTutorialsSection />
               </TabsContent>
 
-              <TabsContent value="technical-spec" className="space-y-4">
+              <TabsContent value="technical-doc" className="space-y-4">
                 <TechnicalSpecification />
               </TabsContent>
             </Tabs>
